@@ -10,6 +10,7 @@
   const templateCopy = document.getElementById("template-copy");
   const templateList = document.getElementById("template-list");
   const messageGuide = document.getElementById("message-guide");
+  const messageError = document.getElementById("message-error");
   const config = window.FTAI_CONFIG || {};
   const endpoint = config.formEndpoint || "";
 
@@ -73,6 +74,13 @@
 
   function updateCount() {
     count.textContent = messageField.value.length + " / 2000";
+  }
+
+  function validateMessage() {
+    const length = messageField.value.trim().length;
+    const isValid = length >= 100;
+    messageError.hidden = isValid || length === 0;
+    return isValid;
   }
 
   function updateScopeTemplate() {
@@ -146,9 +154,11 @@
   }
 
   messageField.addEventListener("input", updateCount);
+  messageField.addEventListener("input", validateMessage);
   scopeField.addEventListener("change", updateScopeTemplate);
 
   updateCount();
+  validateMessage();
   updateScopeTemplate();
 
   if (!endpoint) {
@@ -158,6 +168,13 @@
   form.addEventListener("submit", async function (event) {
     event.preventDefault();
     success.textContent = "";
+
+    if (!validateMessage()) {
+      success.textContent = "현재 상황은 최소 100자 이상 작성해 주세요.";
+      messageField.focus();
+      return;
+    }
+
     setSubmitting(true);
 
     const payload = getPayload();
