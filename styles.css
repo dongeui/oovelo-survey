@@ -418,6 +418,24 @@ h2 {
   color: var(--muted);
 }
 
+.link-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.link-group strong {
+  color: var(--ink);
+}
+
+.link-fields {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
 .field-note {
   color: var(--muted);
 }

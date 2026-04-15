@@ -72,7 +72,7 @@
   };
 
   function updateCount() {
-    count.textContent = messageField.value.length + " / 500";
+    count.textContent = messageField.value.length + " / 2000";
   }
 
   function updateScopeTemplate() {
@@ -99,6 +99,12 @@
   }
 
   function getPayload() {
+    const referenceLinks = [
+      document.getElementById("reference-link-1").value.trim(),
+      document.getElementById("reference-link-2").value.trim(),
+      document.getElementById("reference-link-3").value.trim(),
+    ].filter(Boolean);
+
     return {
       email: document.getElementById("email").value.trim(),
       phone: document.getElementById("phone").value.trim(),
@@ -107,6 +113,7 @@
       followupConsent: document.getElementById("followup").value,
       paidIntent: document.getElementById("paid-intent").value,
       message: messageField.value.trim(),
+      referenceLinks: referenceLinks,
       submittedAt: new Date().toISOString(),
       status: "new",
     };
