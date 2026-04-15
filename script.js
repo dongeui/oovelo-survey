@@ -140,6 +140,11 @@
     localStorage.setItem("ftai-pilot-submissions", JSON.stringify(entries));
   }
 
+  function redirectToThanks(email) {
+    const nextUrl = "./thanks.html?email=" + encodeURIComponent(email || "");
+    window.location.href = nextUrl;
+  }
+
   messageField.addEventListener("input", updateCount);
   scopeField.addEventListener("change", updateScopeTemplate);
 
@@ -160,10 +165,10 @@
     try {
       if (endpoint) {
         await submitToFormspree(payload);
-        success.textContent = "신청이 접수되었습니다. 검토 후 입력하신 이메일로 안내드리겠습니다.";
+        redirectToThanks(payload.email);
       } else {
         saveDemoSubmission(payload);
-        success.textContent = "데모 모드로 신청이 저장되었습니다.";
+        redirectToThanks(payload.email);
       }
 
       form.reset();

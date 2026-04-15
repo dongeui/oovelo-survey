@@ -447,6 +447,30 @@ h2 {
   font-weight: 700;
 }
 
+.thanks-page {
+  min-height: calc(100vh - 120px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 32px;
+}
+
+.thanks-panel {
+  width: min(760px, 100%);
+  padding: 38px;
+  border-radius: 32px;
+}
+
+.thanks-notes {
+  margin-top: 18px;
+  color: var(--muted);
+  line-height: 1.75;
+}
+
+.thanks-notes p {
+  margin: 0 0 10px;
+}
+
 @media (max-width: 960px) {
   .hero,
   .grid-3,
@@ -518,6 +542,11 @@ h2 {
   .signal-strip {
     padding: 18px;
     border-radius: 20px;
+  }
+
+  .thanks-panel {
+    padding: 24px;
+    border-radius: 24px;
   }
 
   h1 {
