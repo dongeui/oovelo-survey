@@ -3,8 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>정상 접수되었습니다</title>
+    <title id="thanks-page-title">정상 접수되었습니다</title>
     <meta
+      id="thanks-page-description"
       name="description"
       content="소상공인 자동화 무료 진단 조사 접수가 완료되었습니다."
     />
@@ -18,20 +19,32 @@
   </head>
   <body>
     <div class="page-shell">
+      <header class="topbar">
+        <div class="brand">
+          <span id="thanks-brand-mark" class="brand-mark">소상공인 자동화 무료 진단 조사</span>
+          <span id="thanks-brand-copy" class="brand-copy">접수 완료</span>
+        </div>
+        <div class="topbar-actions">
+          <div class="lang-switch" aria-label="Language switch">
+            <button id="lang-ko" class="lang-button is-active" type="button">KO</button>
+            <button id="lang-en" class="lang-button" type="button">EN</button>
+          </div>
+        </div>
+      </header>
       <main class="thanks-page">
         <section class="panel thanks-panel">
-          <p class="eyebrow">submission received</p>
+          <p id="thanks-eyebrow" class="eyebrow">submission received</p>
           <h1 id="thanks-title">정상 접수되었습니다.</h1>
-          <p class="hero-text">
+          <p id="thanks-copy" class="hero-text">
             소중한 시간 내어 설문에 응답해주셔서 감사합니다. 남겨주신 내용을 검토한 뒤,
             입력하신 연락처로 순차적으로 안내드리겠습니다.
           </p>
           <div class="thanks-notes">
-            <p>응답이 많을 경우 검토에 시간이 조금 더 걸릴 수 있습니다.</p>
-            <p>추가 안내가 필요한 경우 이메일 또는 남겨주신 전화번호로 연락드릴 수 있습니다.</p>
+            <p id="thanks-note-1">응답이 많을 경우 검토에 시간이 조금 더 걸릴 수 있습니다.</p>
+            <p id="thanks-note-2">추가 안내가 필요한 경우 이메일 또는 남겨주신 전화번호로 연락드릴 수 있습니다.</p>
           </div>
           <div class="hero-actions">
-            <a class="button primary" href="./index.html">처음으로 돌아가기</a>
+            <a id="thanks-cta" class="button primary" href="./index.html">처음으로 돌아가기</a>
           </div>
         </section>
       </main>
@@ -39,12 +52,63 @@
 
     <script>
       (function () {
+        const translations = {
+          ko: {
+            pageTitle: "정상 접수되었습니다",
+            pageDescription: "소상공인 자동화 무료 진단 조사 접수가 완료되었습니다.",
+            brandMark: "소상공인 자동화 무료 진단 조사",
+            brandCopy: "접수 완료",
+            eyebrow: "submission received",
+            title: "정상 접수되었습니다.",
+            titleWithEmail: "{email}님, 정상 접수되었습니다.",
+            copy: "소중한 시간 내어 설문에 응답해주셔서 감사합니다. 남겨주신 내용을 검토한 뒤, 입력하신 연락처로 순차적으로 안내드리겠습니다.",
+            note1: "응답이 많을 경우 검토에 시간이 조금 더 걸릴 수 있습니다.",
+            note2: "추가 안내가 필요한 경우 이메일 또는 남겨주신 전화번호로 연락드릴 수 있습니다.",
+            cta: "처음으로 돌아가기",
+          },
+          en: {
+            pageTitle: "Submission received",
+            pageDescription: "Your response to the small business automation survey has been received.",
+            brandMark: "Small Business Automation Survey",
+            brandCopy: "Received",
+            eyebrow: "submission received",
+            title: "Your submission has been received.",
+            titleWithEmail: "{email}, your submission has been received.",
+            copy: "Thank you for taking the time to complete the survey. We will review your response and follow up using the contact details you provided.",
+            note1: "If response volume is high, review may take a little longer.",
+            note2: "If needed, we may contact you by email or by the phone number you provided.",
+            cta: "Back to survey",
+          },
+        };
+
         const params = new URLSearchParams(window.location.search);
         const email = params.get("email");
-        const title = document.getElementById("thanks-title");
-        if (email) {
-          title.textContent = email + "님, 정상 접수되었습니다.";
+        const langParam = params.get("lang");
+
+        function applyLanguage(lang) {
+          const t = translations[lang] || translations.ko;
+          document.documentElement.lang = lang;
+          document.title = t.pageTitle;
+          document.querySelector('meta[name="description"]').setAttribute("content", t.pageDescription);
+          document.getElementById("thanks-brand-mark").textContent = t.brandMark;
+          document.getElementById("thanks-brand-copy").textContent = t.brandCopy;
+          document.getElementById("thanks-eyebrow").textContent = t.eyebrow;
+          document.getElementById("thanks-title").textContent = email
+            ? t.titleWithEmail.replace("{email}", email)
+            : t.title;
+          document.getElementById("thanks-copy").textContent = t.copy;
+          document.getElementById("thanks-note-1").textContent = t.note1;
+          document.getElementById("thanks-note-2").textContent = t.note2;
+          document.getElementById("thanks-cta").textContent = t.cta;
+          document.getElementById("lang-ko").classList.toggle("is-active", lang === "ko");
+          document.getElementById("lang-en").classList.toggle("is-active", lang === "en");
+          localStorage.setItem("oovelo-lang", lang);
         }
+
+        const savedLang = langParam || localStorage.getItem("oovelo-lang") || "ko";
+        applyLanguage(savedLang);
+        document.getElementById("lang-ko").addEventListener("click", function () { applyLanguage("ko"); });
+        document.getElementById("lang-en").addEventListener("click", function () { applyLanguage("en"); });
       })();
     </script>
   </body>
