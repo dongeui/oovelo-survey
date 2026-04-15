@@ -73,7 +73,7 @@
   };
 
   function updateCount() {
-    count.textContent = messageField.value.length + " / 2000";
+    count.textContent = messageField.value.length + " / 5000";
   }
 
   function validateMessage() {
